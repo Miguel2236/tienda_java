@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class ClienteDAO implements CRUD { // implementamos la interfaz creada CRUD
+public class ClienteDAO implements CRUD { // implementamos la interfaz creada CRUD.java (equivale al extends de php
     Connection con;
     Conexion cn = new Conexion();
     PreparedStatement ps;
@@ -22,7 +22,7 @@ public class ClienteDAO implements CRUD { // implementamos la interfaz creada CR
          */
         
         List<Cliente> lista = new ArrayList<>();
-        String slq = "SELECT idCliente, Dni, Nombres, Direccion FROM cliente";
+        String slq = "SELECT idCliente, Dni, Nombres, Direccion, Estado FROM cliente";
         try {
             con = cn.Conectar();
             ps = con.prepareStatement(slq);
@@ -44,17 +44,56 @@ public class ClienteDAO implements CRUD { // implementamos la interfaz creada CR
     }
 
     @Override
-    public int add(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int add(Object[] obj) {
+        int r = 0;
+        String sql = "INSERT INTO cliente (Dni,Nombres,Direccion,Estado) VALUES(?,?,?,?)";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, obj[0]);
+            ps.setObject(2, obj[1]);
+            ps.setObject(3, obj[2]);
+            ps.setObject(4, obj[3]);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return r;
     }
 
     @Override
-    public int actualizar(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int actualizar(Object[] obj) {
+        int r = 0;
+        String sql = "UPDATE cliente SET Dni = ?, Nombres = ?, Direccion = ?, Estado = ? WHERE idCliente = ?";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, obj[0]);
+            ps.setObject(2, obj[1]);
+            ps.setObject(3, obj[2]);
+            ps.setObject(4, obj[3]);
+            ps.setObject(5, obj[4]);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return r;
     }
 
     @Override
     public int eliminar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int r = 0;
+        String sql = "DELETE FROM cliente WHERE idCliente = ?";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return r;
     }
 }

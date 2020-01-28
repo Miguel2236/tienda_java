@@ -5,17 +5,43 @@
  */
 package vistas;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import modelo.Cliente;
+import modelo.ClienteDAO;
+
 /**
  *
  * @author Miguel
  */
 public class ClienteForm extends javax.swing.JInternalFrame {
-
     /**
      * Creates new form ClienteForm
      */
+    
+    ClienteDAO dao = new ClienteDAO();
+    Cliente cl = new Cliente();
+    DefaultTableModel modelo = new DefaultTableModel();
+    
     public ClienteForm() {
         initComponents();
+        listar();
+    }
+    
+    void listar()
+    {
+        List<Cliente> lista = dao.listar();
+        modelo = (DefaultTableModel)tblClientes.getModel();
+        Object[]ob = new Object[5];
+        for (int i = 0; i < lista.size(); i++) {
+            ob[0] = lista.get(i).getId();
+            ob[1] = lista.get(i).getDni();
+            ob[2] = lista.get(i).getNom();
+            ob[3] = lista.get(i).getDir();
+            ob[4] = lista.get(i).getEstado();
+            modelo.addRow(ob);
+        }
+        tblClientes.setModel(modelo);
     }
 
     /**
@@ -126,7 +152,15 @@ public class ClienteForm extends javax.swing.JInternalFrame {
             new String [] {
                 "ID", "DNI", "NOMBRES", "DIRECCIÓN", "ESTADO"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblClientes);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
