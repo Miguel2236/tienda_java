@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `vendedor` (
 --
 
 INSERT INTO `vendedor` (`idVEndedor`, `Dni`, `Nombres`, `Telefono`, `Estado`, `User_2`) VALUES
-(1, '12345', 'Nancy Elena', '3122563688', '1', 'emp01');
+(1, '12345', 'Valeria', '3122563688', '1', 'emp01');
 
 -- --------------------------------------------------------
 

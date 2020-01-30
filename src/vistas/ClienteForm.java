@@ -24,6 +24,9 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     DefaultTableModel modelo = new DefaultTableModel();
     
     public ClienteForm() {
+        /**
+         * Constructor, aqui se ejecutan lso metodos en cuanto abre la vista
+         */
         initComponents();
         listar();
     }
@@ -85,12 +88,32 @@ public class ClienteForm extends javax.swing.JInternalFrame {
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -", "1", "0" }));
 
         btnAgregar.setText("AGREGAR");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("ACTUALIZAR");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnNuevo.setText("NUEVO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -204,6 +227,72 @@ public class ClienteForm extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        /**
+         * agregar un nuevo registro, limpiar la tabla y listar nuevamente
+         */
+        agregar();
+        limpiarTabla();
+        listar();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        actualizar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        eliminar();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        nuevo();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    void agregar()
+    {
+        String dni = txtDni.getText();
+        String nom = txtNombres.getText();
+        String dir = txtDireccion.getText();
+        String es = cmbEstado.getSelectedItem().toString();
+        Object[] ob = new Object[4];
+        ob[0] = dni;
+        ob[1] = nom;
+        ob[2] = dir;
+        ob[3] = es;
+        
+        dao.add(ob);
+    }
+    
+    void actualizar()
+    {
+        
+    }
+    
+    void eliminar()
+    {
+        
+    }
+    
+    void nuevo()
+    {
+        
+    }
+    void limpiarTabla()
+    {
+        /**
+         * funcion para limpiar la tabla
+         */
+        for (int i = 0; i < modelo.getRowCount(); i++) 
+        {
+            modelo.removeRow(i);
+            i = i - 1;
+        }
+        
+        txtDni.setText("");
+        txtNombres.setText("");
+        txtDireccion.setText("");
+        cmbEstado.setSelectedItem("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
