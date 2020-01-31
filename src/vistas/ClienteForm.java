@@ -6,6 +6,7 @@
 package vistas;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.ClienteDAO;
@@ -22,7 +23,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     ClienteDAO dao = new ClienteDAO();
     Cliente cl = new Cliente();
     DefaultTableModel modelo = new DefaultTableModel();
-    
+    int id;
     public ClienteForm() {
         /**
          * Constructor, aqui se ejecutan lso metodos en cuanto abre la vista
@@ -184,6 +185,11 @@ public class ClienteForm extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblClientes);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -238,6 +244,8 @@ public class ClienteForm extends javax.swing.JInternalFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         actualizar();
+        limpiarTabla();
+        listar();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -247,6 +255,29 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         nuevo();
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        int fila = tblClientes.getSelectedRow();
+        
+        if (fila == -1) 
+        {
+            // si no hay filas seleccionadas
+            JOptionPane.showMessageDialog(this, "Seleccione un registro");
+        }
+        else
+        {
+            id = Integer.parseInt(tblClientes.getValueAt(fila, 0).toString());
+            String dni = tblClientes.getValueAt(fila, 1).toString();
+            String nom = tblClientes.getValueAt(fila, 2).toString();
+            String dir = tblClientes.getValueAt(fila, 3).toString();
+            String es = tblClientes.getValueAt(fila, 4).toString();
+            
+            txtDni.setText(dni);
+            txtNombres.setText(nom);
+            txtDireccion.setText(dir);
+            cmbEstado.setSelectedItem(es);
+        }
+    }//GEN-LAST:event_tblClientesMouseClicked
 
     void agregar()
     {
@@ -265,7 +296,25 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     
     void actualizar()
     {
+        int fila = tblClientes.getSelectedRow();
         
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccioanr una fila");
+        }
+        else
+        {
+            String dni = txtDni.getText();
+            String nom = txtNombres.getText();
+            String dir = txtDireccion.getText();
+            String es = cmbEstado.getSelectedItem().toString();
+            Object[] ob = new Object[5];
+            ob[0] = dni;
+            ob[1] = nom;
+            ob[2] = dir;
+            ob[3] = es;
+            ob[4] = id;
+            dao.actualizar(ob);
+        }
     }
     
     void eliminar()
@@ -291,7 +340,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
         txtDni.setText("");
         txtNombres.setText("");
         txtDireccion.setText("");
-        cmbEstado.setSelectedItem("");
+        cmbEstado.setSelectedItem("- Seleccionar -");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

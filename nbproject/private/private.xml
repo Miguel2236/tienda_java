@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/modelo/ClienteDAO.java</file>
+            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/vistas/ClienteForm.java</file>
+            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/modelo/CRUD.java</file>
+            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/vistas/LoginForm.java</file>
+        </group>
     </open-files>
 </project-private>
