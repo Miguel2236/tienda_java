@@ -319,12 +319,35 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     
     void eliminar()
     {
+        /**
+         * elimianr un registro
+         */
+        int fila = tblClientes.getSelectedRow();
         
+        if (fila == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Debe seleccioanr una fila");
+        }
+        else
+        {
+            dao.eliminar(id);
+            limpiarTabla();
+            listar();
+            nuevo();
+        }
     }
     
     void nuevo()
     {
+        /**
+         * resetear los campos y fiajr el cursor en el campo DNI
+         */
         
+        txtDni.setText("");
+        txtNombres.setText("");
+        txtDireccion.setText("");
+        cmbEstado.setSelectedItem("- Seleccionar -");
+        txtDni.requestFocus();
     }
     void limpiarTabla()
     {
