@@ -26,7 +26,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     int id;
     public ClienteForm() {
         /**
-         * Constructor, aqui se ejecutan lso metodos en cuanto abre la vista
+         * Constructor, aqui se ejecutan los metodos en cuanto abre la vista
          */
         initComponents();
         listar();
