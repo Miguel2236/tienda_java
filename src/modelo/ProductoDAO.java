@@ -43,18 +43,70 @@ public class ProductoDAO implements CRUD{
     }
 
     @Override
-    public int add(Object[] o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int add(Object[] obj) {
+        /**
+         * Agregar un proucto
+         */
+        int r = 0;
+        String sql = "INSERT INTO producto(Nombres,Precio,Stock,Estado) VALUES(?,?,?,?)";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, obj[0]);
+            ps.setObject(2, obj[1]);
+            ps.setObject(3, obj[2]);
+            ps.setObject(4, obj[3]);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } catch (Exception h){
+            JOptionPane.showMessageDialog(null, h);
+        }
+        return r;
     }
 
     @Override
-    public int actualizar(Object[] o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int actualizar(Object[] obj) {
+        /**
+         * actualizar un registro
+         */
+        int r = 0;
+        String sql = "UPDATE producto SET Nombres = ?, Precio = ?, Stock = ?, Estado = ? WHERE idProducto = ?";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, obj[0]);
+            ps.setObject(2, obj[1]);
+            ps.setObject(3, obj[2]);
+            ps.setObject(4, obj[3]);
+            ps.setObject(5, obj[4]);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } catch (Exception h){
+            JOptionPane.showMessageDialog(null, h);
+        }
+        return r;
     }
 
     @Override
     public int eliminar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /**
+         * eliminar un registro
+         */
+        int r = 0;
+        String sql = "DELETE FROM producto WHERE idProducto = ?";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } catch (Exception h){
+            JOptionPane.showMessageDialog(null, h);
+        }
+        return r;
     }
     
 }

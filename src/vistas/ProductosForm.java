@@ -46,6 +46,44 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         }
         tblProducto.setModel(model);
     }
+    
+    void agregarProducto()
+    {
+        /**
+         * agregar un produto
+         */
+        
+        String nombre = txtNombre.getText();
+        String precio = txtPrecio.getText();
+        String stock = txtStock.getText();
+        String es = cmbEstado.getSelectedItem().toString();
+        Object[] obj = new Object[4];
+        obj[0] = nombre;
+        obj[1] = precio;
+        obj[2] = stock;
+        obj[3] = es;
+        
+        dao.add(obj); // llamar al dao para invocar la funcion de guardado enviando los datos
+    }
+    
+    void limpiarTabla()
+    {
+        /**
+         * función para limpiar los inputs y la tabla
+         */
+        for (int i = 0; i < model.getRowCount(); i++) 
+        {
+            // limpiar tabla
+            model.removeRow(i);
+            i = i - 1;
+        }
+        
+        // limpiar inputs
+        txtNombre.setText("");
+        txtPrecio.setText("");
+        txtStock.setText("");
+        cmbEstado.setSelectedItem("- Seleccionar -");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,6 +126,11 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -", "0", "1" }));
 
         btnAgregar.setText("AGREGAR");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("ACTUALIZAR");
 
@@ -195,6 +238,15 @@ public class ProductosForm extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        /**
+         * al oprimir el boton de agregar se guardan los datos, se limpia la taba y campos y se enlista de nuevo
+         */
+        agregarProducto();
+        limpiarTabla();
+        listar();
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

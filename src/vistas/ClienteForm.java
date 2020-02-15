@@ -281,6 +281,9 @@ public class ClienteForm extends javax.swing.JInternalFrame {
 
     void agregar()
     {
+        /**
+         * agregar un cliente
+         */
         String dni = txtDni.getText();
         String nom = txtNombres.getText();
         String dir = txtDireccion.getText();
@@ -296,6 +299,9 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     
     void actualizar()
     {
+        /**
+         * actualizar un cliente
+         */
         int fila = tblClientes.getSelectedRow();
         
         if (fila == -1) {
@@ -320,7 +326,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     void eliminar()
     {
         /**
-         * elimianr un registro
+         * eliminar un cliente
          */
         int fila = tblClientes.getSelectedRow();
         
