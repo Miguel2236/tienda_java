@@ -96,6 +96,22 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         }
     }
     
+    void eliminarProducto()
+    {
+        int fila = tblProducto.getSelectedRow();    // obtener fila seleccionada
+        if (fila == -1) 
+        {
+            // si no hay fila seleccionada
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un registro de la tabla");
+        }
+        else
+        {
+            dao.eliminar(id);
+            limpiarTabla();
+            listar();
+        }
+    }
+    
     void limpiarTabla()
     {
         /**
@@ -170,6 +186,11 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         });
 
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnNuevo.setText("NUEVO");
 
@@ -318,6 +339,11 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         limpiarTabla();
         listar();
     }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // elimianr un registro de producto
+        eliminarProducto();
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
