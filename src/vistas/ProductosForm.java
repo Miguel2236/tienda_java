@@ -6,6 +6,7 @@
 package vistas;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
 import modelo.ProductoDAO;
@@ -66,6 +67,35 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         dao.add(obj); // llamar al dao para invocar la funcion de guardado enviando los datos
     }
     
+    void actualizarProducto()
+    {
+        /**
+         * actualizar producto seleccionado de la tabla
+         */
+        
+        int fila = tblProducto.getSelectedRow();    // obtener fila seleccionada
+        if (fila == -1) 
+        {
+            // si no hay fila seleccionada
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un registro de la tabla");
+        }
+        else
+        {
+            String nombre = txtNombre.getText();
+            String precio = txtPrecio.getText();
+            String stock = txtStock.getText();
+            String es = cmbEstado.getSelectedItem().toString();
+            Object[] obj = new Object[5];
+            obj[0] = nombre;
+            obj[1] = precio;
+            obj[2] = stock;
+            obj[3] = es;
+            obj[4] = id;
+            
+            dao.actualizar(obj);
+        }
+    }
+    
     void limpiarTabla()
     {
         /**
@@ -84,7 +114,7 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         txtStock.setText("");
         cmbEstado.setSelectedItem("- Seleccionar -");
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -133,6 +163,11 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         });
 
         btnActualizar.setText("ACTUALIZAR");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("ELIMINAR");
 
@@ -201,6 +236,11 @@ public class ProductosForm extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Precio", "Stock", "Estado"
             }
         ));
+        tblProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProducto);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -247,6 +287,37 @@ public class ProductosForm extends javax.swing.JInternalFrame {
         limpiarTabla();
         listar();
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
+        // obtener datos de fila seleccionada con click y cargar los datos en los campos
+        int fila = tblProducto.getSelectedRow();
+        if (fila == -1) 
+        {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un registro de la tabla");
+        }
+        else
+        {
+            // obtener los datos de la fila
+            id = Integer.parseInt(tblProducto.getValueAt(fila, 0).toString());
+            String nombre = tblProducto.getValueAt(fila, 1).toString();
+            String precio = tblProducto.getValueAt(fila, 2).toString();
+            String stock = tblProducto.getValueAt(fila, 3).toString();
+            String es = tblProducto.getValueAt(fila, 4).toString();
+            
+            // cargar los datos obtenidos en los campos
+            txtNombre.setText(nombre);
+            txtPrecio.setText(precio);
+            txtStock.setText(stock);
+            cmbEstado.setSelectedItem(es);
+        }
+    }//GEN-LAST:event_tblProductoMouseClicked
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // actualizar producto
+        actualizarProducto();
+        limpiarTabla();
+        listar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
