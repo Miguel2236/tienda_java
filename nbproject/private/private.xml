@@ -4,11 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/modelo/ClienteDAO.java</file>
+            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/vistas/VendedorForm.java</file>
+            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/modelo/Vendedor.java</file>
             <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/vistas/ClienteForm.java</file>
-            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/modelo/ProductoDAO.java</file>
             <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/vistas/Principal.java</file>
-            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/vistas/ProductosForm.java</file>
-            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/modelo/Conexion.java</file>
+            <file>file:/C:/Users/TI/Documents/NetBeansProjects/tienda_java/src/modelo/VendedorDAO.java</file>
         </group>
     </open-files>
 </project-private>

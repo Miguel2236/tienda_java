@@ -1,21 +1,64 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vistas;
 
-/**
- *
- * @author Miguel
- */
-public class VendedorForm extends javax.swing.JInternalFrame {
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import modelo.Vendedor;
+import modelo.VendedorDAO;
 
+public class VendedorForm extends javax.swing.JInternalFrame {
+    
     /**
-     * Creates new form VendedorForm
+     * Formulario de vendedores
      */
+    VendedorDAO vendedordao = new VendedorDAO();
+    Vendedor vendedor = new Vendedor();
+    DefaultTableModel modelo = new DefaultTableModel();  // decalrar modelo tipo defaulttablemodel
+    int id;
     public VendedorForm() {
         initComponents();
+        listarVendedores();
+    }
+    
+    void listarVendedores()
+    {
+        /**
+         * listar los vendedores obteniendolos de la consulta
+         */
+        
+        List<Vendedor> lista = vendedordao.listar();
+        modelo = (DefaultTableModel)tblVendedores.getModel();   // se guarda la tabla en el modelo
+        Object[] obj = new Object[6];
+        for (int i = 0; i < lista.size(); i++)
+        {
+            obj[0] = lista.get(i).getId();
+            obj[1] = lista.get(i).getDni();
+            obj[2] = lista.get(i).getNombre();
+            obj[3] = lista.get(i).getTel();
+            obj[4] = lista.get(i).getUser();
+            obj[5] = lista.get(i).getEstado();
+            modelo.addRow(obj);
+        }
+        
+        tblVendedores.setModel(modelo);
+    }
+    
+    void limpiarTablaVendedores()
+    {
+        /**
+         * limpiar la tabla y campos de vendedores
+         */
+        
+        for (int i = 0; i < modelo.getRowCount(); i++) 
+        {
+            modelo.removeRow(i);
+            i = i - 1;
+        }
+        
+        txtDni.setText("");
+        txtNombre.setText("");
+        txtTelefono.setText("");
+        txtUser.setText("");
     }
 
     /**
@@ -43,7 +86,7 @@ public class VendedorForm extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblVendedores = new javax.swing.JTable();
 
         setTitle("Vendedor");
 
@@ -62,10 +105,25 @@ public class VendedorForm extends javax.swing.JInternalFrame {
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -", "1", "0" }));
 
         btnAgregar.setText("AGREGAR");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("ACTUALIZAR");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -124,7 +182,7 @@ public class VendedorForm extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblVendedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -132,7 +190,7 @@ public class VendedorForm extends javax.swing.JInternalFrame {
                 "ID", "DNI", "Nombre", "Teléfono", "Usuario", "Estado"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblVendedores);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -170,6 +228,18 @@ public class VendedorForm extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // boton para agregar un nuevo vendedor
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // boton para actualizar un vendedor
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // boton para eliminar un vendedor
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -184,7 +254,7 @@ public class VendedorForm extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblVendedores;
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;

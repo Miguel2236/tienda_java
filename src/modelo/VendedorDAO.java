@@ -56,11 +56,12 @@ public class VendedorDAO implements CRUD{
              while (rs.next()) 
              {
                  Vendedor vnd = new Vendedor();
-                 vnd.setDni(rs.getString(1));
+                 vnd.setId(rs.getInt(1));
+                 vnd.setDni(rs.getString(2));
                  vnd.setNombre(rs.getString(2));
-                 vnd.setTel(rs.getString(3));
-                 vnd.setUser(rs.getString(4));
-                 vnd.setEstado(rs.getString(5));
+                 vnd.setTel(rs.getString(4));
+                 vnd.setUser(rs.getString(5));
+                 vnd.setEstado(rs.getString(6));
                  listar.add(vnd);
              }
         } catch (SQLException e) {
