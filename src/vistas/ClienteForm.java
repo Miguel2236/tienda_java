@@ -332,7 +332,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
         
         if (fila == -1)
         {
-            JOptionPane.showMessageDialog(this, "Debe seleccioanr una fila");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente");
         }
         else
         {

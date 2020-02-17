@@ -2,6 +2,7 @@
 package vistas;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Vendedor;
 import modelo.VendedorDAO;
@@ -59,6 +60,71 @@ public class VendedorForm extends javax.swing.JInternalFrame {
         txtNombre.setText("");
         txtTelefono.setText("");
         txtUser.setText("");
+        cmbEstado.setSelectedItem("- Seleccionar -");
+        
+        txtDni.requestFocus();
+    }
+    
+    void agregarVendedor()
+    {
+        /**
+         * agregar un nuevo vendedor
+         */
+        
+        Object[] obj = new Object[5];
+        
+        obj[0] = txtDni.getText();
+        obj[1] = txtNombre.getText();
+        obj[2] = txtTelefono.getText();
+        obj[3] = txtUser.getText();
+        obj[4] = cmbEstado.getSelectedItem();
+        
+        vendedordao.add(obj);
+    }
+    
+    void actualizarVendedor()
+    {
+        /**
+         * actualizar un vendedor seleccionado
+         */
+        
+        int fila = tblVendedores.getSelectedRow();
+        if (fila == -1) 
+        {
+            JOptionPane.showMessageDialog(this, "Selecciona un vendedor");
+        }
+        else
+        {
+            Object[] obj = new Object[6];
+            obj[0] = txtDni.getText();
+            obj[1] = txtNombre.getText();
+            obj[2] = txtTelefono.getText();
+            obj[3] = txtUser.getText();
+            obj[4] = cmbEstado.getSelectedItem();
+            obj[5] = id;
+            
+            vendedordao.actualizar(obj);
+        }
+    }
+    
+    void eliminarvendedor()
+    {
+        /**
+         * borrar un vendedor seleccionado
+         */
+        
+        int fila = tblVendedores.getSelectedRow();
+        
+        if (fila == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Selecciona un vendedor");
+        }
+        else
+        {
+            vendedordao.eliminar(id);
+            limpiarTablaVendedores();
+            listarVendedores();
+        }
     }
 
     /**
@@ -190,6 +256,11 @@ public class VendedorForm extends javax.swing.JInternalFrame {
                 "ID", "DNI", "Nombre", "Teléfono", "Usuario", "Estado"
             }
         ));
+        tblVendedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVendedoresMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblVendedores);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -230,15 +301,46 @@ public class VendedorForm extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // boton para agregar un nuevo vendedor
+        agregarVendedor();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // boton para actualizar un vendedor
+        actualizarVendedor();
+        limpiarTablaVendedores();
+        listarVendedores();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // boton para eliminar un vendedor
+        eliminarvendedor();
+        limpiarTablaVendedores();
+        listarVendedores();
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void tblVendedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVendedoresMouseClicked
+        // seleccionar un registro al hacer click
+        int fila = tblVendedores.getSelectedRow();
+        if (fila == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Selecciona un registro");
+        }
+        else
+        {
+            id = Integer.parseInt(tblVendedores.getValueAt(fila, 0).toString());
+            String dni = tblVendedores.getValueAt(fila, 1).toString();
+            String nombre = tblVendedores.getValueAt(fila, 2).toString();
+            String telefono = tblVendedores.getValueAt(fila, 3).toString();
+            String usuario = tblVendedores.getValueAt(fila, 4).toString();
+            String estado = tblVendedores.getValueAt(fila, 5).toString();
+            
+            txtDni.setText(dni);
+            txtNombre.setText(nombre);
+            txtTelefono.setText(telefono);
+            txtUser.setText(usuario);
+            cmbEstado.setSelectedItem(estado);
+        }
+    }//GEN-LAST:event_tblVendedoresMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

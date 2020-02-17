@@ -7,14 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 
 public class VendedorDAO implements CRUD{
-    PreparedStatement ps;
-    ResultSet rs;
-    
     Conexion con = new Conexion();
     Connection acceso;
+    PreparedStatement ps;
+    ResultSet rs;
     
     public EntidadVendedor ValidarVendedor(String dni, String user)
     {
@@ -58,30 +58,72 @@ public class VendedorDAO implements CRUD{
                  Vendedor vnd = new Vendedor();
                  vnd.setId(rs.getInt(1));
                  vnd.setDni(rs.getString(2));
-                 vnd.setNombre(rs.getString(2));
+                 vnd.setNombre(rs.getString(3));
                  vnd.setTel(rs.getString(4));
                  vnd.setUser(rs.getString(5));
                  vnd.setEstado(rs.getString(6));
                  listar.add(vnd);
              }
         } catch (SQLException e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e);
         }
         return listar;
     }
 
     @Override
-    public int add(Object[] o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int add(Object[] obj) {
+        // agregar un vendedor nuevo, se reciben los datos del formulario para ser guardados
+        int r = 0;
+        String sql = "INSERT INTO vendedor(Dni,Nombres,Telefono,User_2,Estado) VALUES(?,?,?,?,?)";
+        try {
+            acceso = con.Conectar();
+            ps = acceso.prepareStatement(sql);
+            ps.setObject(1, obj[0]);
+            ps.setObject(2, obj[1]);
+            ps.setObject(3, obj[2]);
+            ps.setObject(4, obj[3]);
+            ps.setObject(5, obj[4]);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return r;
     }
 
     @Override
-    public int actualizar(Object[] o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int actualizar(Object[] obj) {
+        //editar un vendedor, se recibe los datos del formulario.
+        int r = 0;
+        String sql = "UPDATE vendedor SET Dni = ?, Nombres = ?, Telefono = ?, User_2 = ?, Estado = ? WHERE idVEndedor = ?";
+        try {
+            acceso = con.Conectar();
+            ps = acceso.prepareStatement(sql);
+            ps.setObject(1, obj[0]);
+            ps.setObject(2, obj[1]);
+            ps.setObject(3, obj[2]);
+            ps.setObject(4, obj[3]);
+            ps.setObject(5, obj[4]);
+            ps.setObject(6, obj[5]);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return r;
     }
 
     @Override
     public int eliminar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //eliminar un vendedor usando el ID enviado.
+        int r = 0;
+        String sql = "DELETE FROM vendedor WHERE idVEndedor = ?";
+        try {
+            acceso = con.Conectar();
+            ps = acceso.prepareStatement(sql);
+            ps.setInt(1, id);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return r;
     }
 }
