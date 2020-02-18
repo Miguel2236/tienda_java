@@ -14,6 +14,31 @@ public class ClienteDAO implements CRUD { // implementamos la interfaz creada CR
     Conexion cn = new Conexion();
     PreparedStatement ps;
     ResultSet rs;
+    
+    
+    public Cliente buscarCliente(String dni)
+    {
+        Cliente cls = new Cliente();
+        String sql = "SELECT idCliente,Dni,Nombres,Direccion,Estado FROM cliente WHERE Dni = ?";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, dni);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                cls.setId(rs.getInt(1));
+                cls.setDni(rs.getString(2));
+                cls.setNom(rs.getString(3));
+                cls.setDir(rs.getString(4));
+                cls.setEstado(rs.getString(5));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return cls;
+    }
 
     @Override
     public List listar() {

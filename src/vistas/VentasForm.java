@@ -1,21 +1,51 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vistas;
 
-/**
- *
- * @author Miguel
- */
+import javax.swing.JOptionPane;
+import modelo.Cliente;
+import modelo.ClienteDAO;
+
 public class VentasForm extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form VentasForm
      */
+    ClienteDAO clsdao = new ClienteDAO();
     public VentasForm() {
         initComponents();
+    }
+    
+    void buscarCliente()
+    {
+        /**
+         * funcion para buscar un cliente usando su DNI
+         */
+        
+        int r;
+        String codCliente = txtCodCliente.getText();
+        if (txtCodCliente.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Escriba el código del cliente a buscar");
+        }
+        else
+        {
+            Cliente cls = clsdao.buscarCliente(codCliente);
+            if (cls.getDni() != null)
+            {
+                txtCliente.setText(cls.getNom());
+                txtCodProd.requestFocus();
+            }
+            else
+            {
+                r = JOptionPane.showConfirmDialog(this, "Cliente NO encontrado, ¿Registrar uno nuevo?");
+                if (r == 0) 
+                {
+                    ClienteForm clsFrm = new ClienteForm();
+                    Principal.VentanaPrincipal.add(clsFrm);  // esto se ahce cuando las propiedades de la ventana principal es public y static
+                    clsFrm.setVisible(true);
+                }
+            }
+        }
     }
 
     /**
@@ -125,6 +155,11 @@ public class VentasForm extends javax.swing.JInternalFrame {
         jLabel8.setText("Cantidad");
 
         btnBuscarClt.setText("Buscar");
+        btnBuscarClt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarCltActionPerformed(evt);
+            }
+        });
 
         btnBuscarPro.setText("Buscar");
 
@@ -174,14 +209,13 @@ public class VentasForm extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel12))
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
                                 .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtStock, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtVendedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,7 +248,7 @@ public class VentasForm extends javax.swing.JInternalFrame {
                     .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(txtVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -237,7 +271,7 @@ public class VentasForm extends javax.swing.JInternalFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -255,26 +289,26 @@ public class VentasForm extends javax.swing.JInternalFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(192, Short.MAX_VALUE)
                 .addComponent(btnVenta)
                 .addGap(18, 18, 18)
                 .addComponent(btnCancelar)
-                .addGap(42, 42, 42)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(36, 36, 36))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13)
                     .addComponent(btnVenta)
-                    .addComponent(btnCancelar))
-                .addGap(19, 19, 19))
+                    .addComponent(btnCancelar)
+                    .addComponent(jLabel13)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -301,11 +335,16 @@ public class VentasForm extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 5, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBuscarCltActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCltActionPerformed
+        // buscar un cliente usando su DNI
+        buscarCliente();
+    }//GEN-LAST:event_btnBuscarCltActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
