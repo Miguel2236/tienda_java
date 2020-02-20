@@ -14,6 +14,32 @@ public class ProductoDAO implements CRUD{
     Conexion cn = new Conexion();
     PreparedStatement ps;
     ResultSet rs;
+    
+    public Producto buscarProducto(int idProducto)
+    {
+        /**
+         * buscar un producto usando su ID, retorna el resultado de la consulta
+         */
+        Producto prod = new Producto();
+        String sql = "SELECT idProducto,Nombres,Precio,Stock,Estado FROM producto WHERE idProducto = ?";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idProducto);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                prod.setId(rs.getInt(1));
+                prod.setNom(rs.getString(2));
+                prod.setPrecio(rs.getDouble(3));
+                prod.setStock(rs.getInt(4));
+                prod.setEstado(rs.getString(5));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return prod;
+    }
 
     @Override
     public List listar() {

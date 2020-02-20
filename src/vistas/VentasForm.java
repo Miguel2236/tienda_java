@@ -4,6 +4,8 @@ package vistas;
 import javax.swing.JOptionPane;
 import modelo.Cliente;
 import modelo.ClienteDAO;
+import modelo.Producto;
+import modelo.ProductoDAO;
 
 public class VentasForm extends javax.swing.JInternalFrame {
 
@@ -11,6 +13,7 @@ public class VentasForm extends javax.swing.JInternalFrame {
      * Creates new form VentasForm
      */
     ClienteDAO clsdao = new ClienteDAO();
+    
     public VentasForm() {
         initComponents();
     }
@@ -45,6 +48,44 @@ public class VentasForm extends javax.swing.JInternalFrame {
                     clsFrm.setVisible(true);
                 }
             }
+        }
+    }
+    
+    void buscarProductoID()
+    {
+        int r;
+        String codProd = txtCodProd.getText();
+        
+        if (codProd.equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Escriba el código del producto a buscar");
+            txtCodProd.requestFocus();
+        }
+        else
+        {
+            ProductoDAO prodao = new ProductoDAO();
+            Producto pro =  prodao.buscarProducto(Integer.parseInt(codProd));
+            if (pro.getNom() != null)
+            {
+                txtProducto.setText(pro.getNom());
+                txtPrecio.setText(""+pro.getPrecio()); // al ser imcompatibles los tipos se deja un espcio entre comillas
+                txtStock.setText(""+pro.getStock());
+            }
+            else
+            {
+                r = JOptionPane.showConfirmDialog(this, "Producto no encotnrado,¿Desea registrarlo?");
+                if (r == 0)
+                {
+                    ProductosForm prdfrm = new ProductosForm();
+                    Principal.VentanaPrincipal.add(prdfrm);
+                    prdfrm.setVisible(true);
+                    //prdfrm.setVisible(isIcon);
+                }
+            }
+            
+            
+            //ProductoDAO prodao = new ProductoDAO();
+            //prodao.buscarProducto(codProd);
         }
     }
 
@@ -162,6 +203,11 @@ public class VentasForm extends javax.swing.JInternalFrame {
         });
 
         btnBuscarPro.setText("Buscar");
+        btnBuscarPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarProActionPerformed(evt);
+            }
+        });
 
         btnAgregarPro.setText("Agregar");
 
@@ -345,6 +391,11 @@ public class VentasForm extends javax.swing.JInternalFrame {
         // buscar un cliente usando su DNI
         buscarCliente();
     }//GEN-LAST:event_btnBuscarCltActionPerformed
+
+    private void btnBuscarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProActionPerformed
+        // buscar un producto usando su ID
+        buscarProductoID();
+    }//GEN-LAST:event_btnBuscarProActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
