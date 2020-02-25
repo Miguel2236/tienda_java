@@ -11,6 +11,8 @@ import modelo.Cliente;
 import modelo.ClienteDAO;
 import modelo.Producto;
 import modelo.ProductoDAO;
+import modelo.Ventas;
+import modelo.DetalleVenta;
 import modelo.VentasDAO;
 
 public class VentasForm extends javax.swing.JInternalFrame {
@@ -19,8 +21,11 @@ public class VentasForm extends javax.swing.JInternalFrame {
      * Creates new form VentasForm
      */
     ClienteDAO clsdao = new ClienteDAO();
-    VentasDAO vedao = new VentasDAO();
+    VentasDAO ventasdao = new VentasDAO();
+    Ventas ventas = new Ventas();
     Producto p = new Producto();
+    Cliente cls = new Cliente();
+    DetalleVenta detalleventa = new DetalleVenta();
     
     DefaultTableModel modelo = new DefaultTableModel();
     
@@ -28,12 +33,17 @@ public class VentasForm extends javax.swing.JInternalFrame {
     double precioProducto;
     int cantidadProducto;
     int item = 0;
+    double totalGlobal = 0;
+    
+    int idCliente = 0;
+    int idVendedor = 0;
     
     public VentasForm() {
         // Constructor para inicializar variables y funciones
         initComponents();
         spnCantidad.setValue(1);
         txtFecha.setText(getDate());
+        generarSerie();
     }
     
     void buscarCliente()
@@ -50,7 +60,7 @@ public class VentasForm extends javax.swing.JInternalFrame {
         }
         else
         {
-            Cliente cls = clsdao.buscarCliente(codCliente);
+            cls = clsdao.buscarCliente(codCliente);
             if (cls.getDni() != null)
             {
                 txtCliente.setText(cls.getNom());
@@ -159,7 +169,6 @@ public class VentasForm extends javax.swing.JInternalFrame {
          * se calcula el total a pagar de la venta
          */
         
-        double totalGlobal = 0;
         for (int i = 0; i < tblVenta.getRowCount(); i++)
         {
             cantidadProducto = Integer.parseInt(tblVenta.getValueAt(i, 3).toString());
@@ -171,11 +180,71 @@ public class VentasForm extends javax.swing.JInternalFrame {
     
     String getDate()
     {
+        /**
+         * obtener fecha actual en formato dd/mm/YYYY
+         */
         String fecha;
-        DateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateformat = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
         fecha = dateformat.format(date);
         return fecha;
+    }
+    
+    void generarSerie()
+    {
+        /**
+         * obtener el numero de serie anterior y pegarlo al imput de serie
+         */
+        
+        String serie = ventasdao.generarNoSerie();
+        if (serie == null)
+        {
+            serie = "00001";
+            txtSerie.setText(serie);
+        }
+        else
+        {
+            int increment = Integer.parseInt(serie);
+            increment = increment + 1;
+            txtSerie.setText("0000"+increment);
+        }
+    }
+    
+    void guardarVenta()
+    {
+        String serie = txtSerie.getText();
+        idCliente = cls.getId();
+        idVendedor = 1;
+        String fecha = getDate();
+        double monto = totalGlobal;
+        
+        ventas.setIdCliente(idCliente);
+        ventas.setIdVendedor(idVendedor);
+        ventas.setSerie(serie);
+        ventas.setFecha(fecha);
+        ventas.setMonto(monto);
+        ventas.setEstado("1");
+        
+        ventasdao.guardarVenta(ventas);
+   }
+    
+    void guardarDetalle()
+    {
+        DetalleVenta dventa = new DetalleVenta();
+        int idVenta = Integer.parseInt(ventasdao.getLastIDVenta());
+        for (int i = 0; i < tblVenta.getRowCount(); i++)
+        {
+            int idProd = Integer.parseInt(tblVenta.getValueAt(i, 1).toString());
+            int cantidad = Integer.parseInt(tblVenta.getValueAt(i, 3).toString());
+            double precioUnitario = Double.parseDouble(tblVenta.getValueAt(i, 4).toString());
+            
+            dventa.setIdVentas(idVenta);
+            dventa.setIdProducto(idProd);
+            dventa.setCantidad(cantidad);
+            dventa.setPreVenta(precioUnitario);
+            
+            ventasdao.guardarDetalleVentas(dventa);
+        }
     }
 
     /**
@@ -419,6 +488,11 @@ public class VentasForm extends javax.swing.JInternalFrame {
         txtTotal.setEditable(false);
 
         btnVenta.setText("Generar Venta");
+        btnVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentaActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
 
@@ -493,6 +567,13 @@ public class VentasForm extends javax.swing.JInternalFrame {
         // Agregar ub producto para hacer la venta
         argegarProducto();
     }//GEN-LAST:event_btnAgregarProActionPerformed
+
+    private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
+        // generar venta
+        guardarVenta();
+        guardarDetalle();
+        JOptionPane.showMessageDialog(this, "Venta guardada Con éxito");
+    }//GEN-LAST:event_btnVentaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
