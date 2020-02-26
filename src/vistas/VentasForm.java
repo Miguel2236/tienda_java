@@ -26,6 +26,7 @@ public class VentasForm extends javax.swing.JInternalFrame {
     Producto p = new Producto();
     Cliente cls = new Cliente();
     DetalleVenta detalleventa = new DetalleVenta();
+    ProductoDAO prodao = new ProductoDAO();
     
     DefaultTableModel modelo = new DefaultTableModel();
     
@@ -91,7 +92,6 @@ public class VentasForm extends javax.swing.JInternalFrame {
         }
         else
         {
-            ProductoDAO prodao = new ProductoDAO();
             Producto pro =  prodao.buscarProducto(Integer.parseInt(codProd));
             if (pro.getNom() != null)
             {
@@ -151,6 +151,7 @@ public class VentasForm extends javax.swing.JInternalFrame {
                 tblVenta.setModel(modelo);
 
                 calcularTotalGlobal();
+                limpiarFormularioVenta();
             }
             else
             {
@@ -212,6 +213,9 @@ public class VentasForm extends javax.swing.JInternalFrame {
     
     void guardarVenta()
     {
+        /**
+         * guardar la venta
+         */
         String serie = txtSerie.getText();
         idCliente = cls.getId();
         idVendedor = 1;
@@ -230,6 +234,9 @@ public class VentasForm extends javax.swing.JInternalFrame {
     
     void guardarDetalle()
     {
+        /**
+         * guardar el detalle de las ventas
+         */
         DetalleVenta dventa = new DetalleVenta();
         int idVenta = Integer.parseInt(ventasdao.getLastIDVenta());
         for (int i = 0; i < tblVenta.getRowCount(); i++)
@@ -243,8 +250,17 @@ public class VentasForm extends javax.swing.JInternalFrame {
             dventa.setCantidad(cantidad);
             dventa.setPreVenta(precioUnitario);
             
+            int stock = prodao.obtenerStock(idProd);
+            int resta = stock - cantidad;
+            prodao.updateStock(resta, idProd);
+            
             ventasdao.guardarDetalleVentas(dventa);
         }
+        
+        limpiarFormularioVenta();
+        limpiartablaVenta();
+        generarSerie();
+        JOptionPane.showMessageDialog(this, "Venta guardada Con éxito");
     }
 
     /**
@@ -572,9 +588,29 @@ public class VentasForm extends javax.swing.JInternalFrame {
         // generar venta
         guardarVenta();
         guardarDetalle();
-        JOptionPane.showMessageDialog(this, "Venta guardada Con éxito");
     }//GEN-LAST:event_btnVentaActionPerformed
 
+    void limpiarFormularioVenta()
+    {
+        // limpiar los imputs de venta
+        txtCliente.setText("");
+        txtCliente.setText("");
+        txtCodProd.setText("");
+        txtProducto.setText("");
+        txtStock.setText("");
+        txtPrecio.setText("");
+        spnCantidad.setValue(1);
+    }
+    
+    void limpiartablaVenta()
+    {
+        //limpiar la tabla de ventas
+        for (int i = 0; i < tblVenta.getRowCount(); i++)
+        {
+            modelo.removeRow(i);
+            i = i - 1;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPro;

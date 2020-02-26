@@ -40,6 +40,51 @@ public class ProductoDAO implements CRUD{
         }
         return prod;
     }
+    
+    public int obtenerStock(int idProducto)
+    {
+        /**
+         * obtener el stock de un producto
+         */
+        int stock = 0;
+        String sql = "SELECT stock FROM producto WHERE idProducto = ?";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idProducto);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                stock = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return stock;
+    }
+    
+    public int updateStock(int cantidad, int idProducto)
+    {
+        /**
+         * actualizar elstock de un producto al hacer la venta
+         */
+        int r = 0;
+        String sql = "UPDATE producto SET Stock = ? WHERE idProducto = ?";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cantidad);
+            ps.setInt(2, idProducto);
+            r = ps.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return r;
+    }
 
     @Override
     public List listar() {
