@@ -92,10 +92,18 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuGenerarReportes">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Reporte de Ventas"/>
+                <Property name="text" type="java.lang.String" value="Reporte General"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuGenerarReportesActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuReporteVentas">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reporte de Ventas"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuReporteVentasActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

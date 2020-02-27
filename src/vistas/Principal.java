@@ -3,6 +3,7 @@ package vistas;
 
 import java.awt.Dimension;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -36,6 +37,7 @@ public class Principal extends javax.swing.JFrame {
         menuVendedor = new javax.swing.JMenuItem();
         menuGenerarReporte = new javax.swing.JMenu();
         menuGenerarReportes = new javax.swing.JMenuItem();
+        menuReporteVentas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,13 +118,21 @@ public class Principal extends javax.swing.JFrame {
         menuGenerarReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reportes.png"))); // NOI18N
         menuGenerarReporte.setText("Reportes");
 
-        menuGenerarReportes.setText("Reporte de Ventas");
+        menuGenerarReportes.setText("Reporte General");
         menuGenerarReportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuGenerarReportesActionPerformed(evt);
             }
         });
         menuGenerarReporte.add(menuGenerarReportes);
+
+        menuReporteVentas.setText("Reporte de Ventas");
+        menuReporteVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuReporteVentasActionPerformed(evt);
+            }
+        });
+        menuGenerarReporte.add(menuReporteVentas);
 
         jMenuBar1.add(menuGenerarReporte);
 
@@ -178,8 +188,16 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVendedorActionPerformed
 
     private void menuGenerarReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGenerarReportesActionPerformed
-        // TODO add your handling code here:
+        // abrir la tbla de reporte generañ
+        ReporteForm reporte = new ReporteForm();
+        abrirReportes(reporte);
     }//GEN-LAST:event_menuGenerarReportesActionPerformed
+
+    private void menuReporteVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuReporteVentasActionPerformed
+        // abrir la tabla de reporte detallado
+        ReporteVentasForm repventas = new ReporteVentasForm();
+        abrirReportes(repventas);
+    }//GEN-LAST:event_menuReporteVentasActionPerformed
 
     void CentrarVentana(JInternalFrame frame)
     {
@@ -189,7 +207,14 @@ public class Principal extends javax.swing.JFrame {
         VentanaPrincipal.add(frame); //agregar el formulario enviado por parametro a la ventana principal
         Dimension dimension = VentanaPrincipal.getSize();
         Dimension Dframe = frame.getSize();
-        frame.setLocation((dimension.width - Dframe.height)/2, (dimension.height - Dframe.width)/2);
+        frame.setLocation((dimension.width - Dframe.height)/2, ((dimension.height - Dframe.width)/2)+10);
+        frame.show();
+    }
+    
+    void abrirReportes(JInternalFrame frame)
+    {
+        VentanaPrincipal.add(frame);
+        frame.setLocation(200, 100);
         frame.show();
     }
     /**
@@ -209,6 +234,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuGenerarReportes;
     private javax.swing.JMenuItem menuGenerarVenta;
     private javax.swing.JMenuItem menuProducto;
+    private javax.swing.JMenuItem menuReporteVentas;
     private javax.swing.JMenuItem menuVendedor;
     private javax.swing.JMenu subMenuSalir;
     // End of variables declaration//GEN-END:variables

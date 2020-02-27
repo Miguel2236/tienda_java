@@ -68,7 +68,7 @@ public class ProductoDAO implements CRUD{
     public int updateStock(int cantidad, int idProducto)
     {
         /**
-         * actualizar elstock de un producto al hacer la venta
+         * actualizar el stock de un producto al hacer la venta
          */
         int r = 0;
         String sql = "UPDATE producto SET Stock = ? WHERE idProducto = ?";
